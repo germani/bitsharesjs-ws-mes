@@ -1,6 +1,6 @@
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-import MesApis from "./ApiInstances";
+import Apis from "./ApiInstances";
 import ChainWebSocket from "./ChainWebSocket";
 
 var Manager = function () {
@@ -30,7 +30,7 @@ var Manager = function () {
     };
 
     Manager.close = function close() {
-        return MesApis.close();
+        return Apis.close();
     };
 
     Manager.prototype.logFailure = function logFailure(method, url, err) {
@@ -57,12 +57,12 @@ var Manager = function () {
         var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.url;
 
         return new Promise(function (resolve, reject) {
-            MesApis.instance(url, _connect, undefined, _this.optionalApis, _this._onClose.bind(_this)).init_promise.then(function (res) {
+            Apis.instance(url, _connect, undefined, _this.optionalApis, _this._onClose.bind(_this)).init_promise.then(function (res) {
                 _this.url = url;
                 _this.isConnected = true;
                 resolve(res);
             }).catch(function (err) {
-                MesApis.close().then(function () {
+                Apis.close().then(function () {
                     reject(err);
                 });
             });

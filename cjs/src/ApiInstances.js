@@ -35,12 +35,12 @@ var autoReconnect = false; // by default don't use reconnecting-websocket
     Additional usage: Apis.instance().db_api().exec("method", ["method", "parm1", 2, 3, ...]).  Returns a promise with results.
 */
 
-var MesApis = function () {
-    function MesApis() {
-        _classCallCheck(this, MesApis);
+var Apis = function () {
+    function Apis() {
+        _classCallCheck(this, Apis);
     }
 
-    MesApis.setRpcConnectionStatusCallback = function setRpcConnectionStatusCallback(callback) {
+    Apis.setRpcConnectionStatusCallback = function setRpcConnectionStatusCallback(callback) {
         this.statusCb = callback;
         if (inst) inst.setRpcConnectionStatusCallback(callback);
     };
@@ -50,17 +50,17 @@ var MesApis = function () {
     */
 
 
-    MesApis.setAutoReconnect = function setAutoReconnect(auto) {
+    Apis.setAutoReconnect = function setAutoReconnect(auto) {
         autoReconnect = auto;
     };
 
     /**
         @arg {string} cs is only provided in the first call
-        @return {MesApis} singleton .. Check MesApis.instance().init_promise to know when the connection is established
+        @return {Apis} singleton .. Check Apis.instance().init_promise to know when the connection is established
     */
 
 
-    MesApis.reset = function reset() {
+    Apis.reset = function reset() {
         var cs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "ws://localhost:8090";
         var connect = arguments[1];
         var connectTimeout = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 4000;
@@ -71,7 +71,7 @@ var MesApis = function () {
         var closeCb = arguments[4];
 
         return this.close().then(function () {
-            inst = new MesApis();
+            inst = new Apis();
             inst.setRpcConnectionStatusCallback(_this.statusCb);
 
             if (inst && connect) {
@@ -82,7 +82,7 @@ var MesApis = function () {
         });
     };
 
-    MesApis.instance = function instance() {
+    Apis.instance = function instance() {
         var cs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "ws://localhost:8090";
         var connect = arguments[1];
         var connectTimeout = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 4000;
@@ -90,7 +90,7 @@ var MesApis = function () {
         var closeCb = arguments[4];
 
         if (!inst) {
-            inst = new MesApis();
+            inst = new Apis();
             inst.setRpcConnectionStatusCallback(this.statusCb);
         }
 
@@ -101,11 +101,11 @@ var MesApis = function () {
         return inst;
     };
 
-    MesApis.chainId = function chainId() {
+    Apis.chainId = function chainId() {
         return this.instance().chain_id;
     };
 
-    MesApis.close = function close() {
+    Apis.close = function close() {
         if (inst) {
             return new Promise(function (res) {
                 inst.close().then(function () {
@@ -125,7 +125,7 @@ var MesApis = function () {
 
 
     /** @arg {string} connection .. */
-    MesApis.prototype.connect = function connect(cs, connectTimeout) {
+    Apis.prototype.connect = function connect(cs, connectTimeout) {
         var _this2 = this;
 
         var optionalApis = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { enableCrypto: false, enableOrders: false };
@@ -195,7 +195,7 @@ var MesApis = function () {
         });
     };
 
-    MesApis.prototype.close = function close() {
+    Apis.prototype.close = function close() {
         var _this3 = this;
 
         if (this.ws_rpc && this.ws_rpc.ws.readyState === 1) {
@@ -207,67 +207,67 @@ var MesApis = function () {
         return Promise.resolve();
     };
 
-    MesApis.prototype.db_api = function db_api() {
+    Apis.prototype.db_api = function db_api() {
         return this._db;
     };
 
-    MesApis.prototype.network_api = function network_api() {
+    Apis.prototype.network_api = function network_api() {
         return this._net;
     };
 
-    MesApis.prototype.history_api = function history_api() {
+    Apis.prototype.history_api = function history_api() {
         return this._hist;
     };
 
-    MesApis.prototype.crypto_api = function crypto_api() {
+    Apis.prototype.crypto_api = function crypto_api() {
         return this._crypt;
     };
 
-    MesApis.prototype.orders_api = function orders_api() {
+    Apis.prototype.orders_api = function orders_api() {
         return this._orders;
     };
 
-    MesApis.prototype.setRpcConnectionStatusCallback = function setRpcConnectionStatusCallback(callback) {
+    Apis.prototype.setRpcConnectionStatusCallback = function setRpcConnectionStatusCallback(callback) {
         this.statusCb = callback;
     };
 
-    return MesApis;
+    return Apis;
 }();
 
-MesApis.db = new Proxy(MesApis, {
+Apis.db = new Proxy(Apis, {
     get: function get(apis, method) {
         return function () {
             return apis.instance().db_api().exec(method, [].concat(Array.prototype.slice.call(arguments)));
         };
     }
 });
-MesApis.network = new Proxy(MesApis, {
+Apis.network = new Proxy(Apis, {
     get: function get(apis, method) {
         return function () {
             return apis.instance().network_api().exec(method, [].concat(Array.prototype.slice.call(arguments)));
         };
     }
 });
-MesApis.history = new Proxy(MesApis, {
+Apis.history = new Proxy(Apis, {
     get: function get(apis, method) {
         return function () {
             return apis.instance().history_api().exec(method, [].concat(Array.prototype.slice.call(arguments)));
         };
     }
 });
-MesApis.crypto = new Proxy(MesApis, {
+Apis.crypto = new Proxy(Apis, {
     get: function get(apis, method) {
         return function () {
             return apis.instance().crypto_api().exec(method, [].concat(Array.prototype.slice.call(arguments)));
         };
     }
 });
-MesApis.orders = new Proxy(MesApis, {
+Apis.orders = new Proxy(Apis, {
     get: function get(apis, method) {
         return function () {
             return apis.instance().orders_api().exec(method, [].concat(Array.prototype.slice.call(arguments)));
         };
     }
 });
-exports.default = MesApis;
+exports.default = Apis;
 module.exports = exports["default"];
