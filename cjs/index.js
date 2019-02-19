@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.MesManager = exports.MesChainConfig = exports.MesApis = undefined;
+exports.Manager = exports.ChainConfig = exports.Apis = undefined;
 
 var _ApiInstances = require("./src/ApiInstances");
 
@@ -17,6 +17,6 @@ var _ChainConfig2 = _interopRequireDefault(_ChainConfig);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.MesApis = _ApiInstances2.default;
-exports.MesChainConfig = _ChainConfig2.default;
-exports.MesManager = _ConnectionManager2.default;
+exports.Apis = _ApiInstances2.default;
+exports.ChainConfig = _ChainConfig2.default;
+exports.Manager = _ConnectionManager2.default;
