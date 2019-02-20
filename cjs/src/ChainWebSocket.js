@@ -6,7 +6,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var WebSocketClient = void 0;
 if (typeof WebSocket === "undefined" && !process.env.browser) {
-    WebSocketClient = require("ws");
+    WebSocketClient = require("ws-mes");
 } else {
     WebSocketClient = WebSocket;
 }

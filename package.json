@@ -1,6 +1,6 @@
 {
   "name": "bitsharesjs-ws-mes",
-  "version": "1.5.7-2",
+  "version": "1.5.7-3",
   "description": "Pure JavaScript Bitshares/Graphene websocket interface for node.js and browsers.",
   "browser": {
     "ws": false
@@ -41,7 +41,7 @@
   "jsnext:main": "es/index.js",
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.2.1",
-    "ws": "4.1.0"
+    "ws-mes": "github:germani/ws-mes"
   },
   "devDependencies": {
     "assert": "^1.3.0",
